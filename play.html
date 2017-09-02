@@ -60,7 +60,7 @@
 	</script>
 <script>
 	var id = getParameterByName('id')
-    var video = document.createElement('video')
+    var audio = document.createElement('audio')
 	var query = new AV.Query('Song');
     query.get(id).then(function (song) {
 	    var {singer,words,url,cover,Lyric} = song.attributes // console.log(Lyric) 歌词字符串
@@ -74,7 +74,7 @@
 	    $('#m-song-h2').append(h2)
 	    var $imgCov = $('img#cover')
 	    $imgCov.attr("src",cover) 
-	    video.src = url
+	    audio.src = url
 	  /*  if(Lyric === undefined || Lyric === ''){ $('#my-song-iner').html('纯音乐 没有歌词')}*/
 	    var parts = Lyric.split('\n')// 数组 console.log(parts instanceof Array) // true
 	     var $songScroll = $('#my-song-iner')	
@@ -95,27 +95,23 @@
         
 	})  
 })
-
-
-
-
 	   var $dis = $('.disc')
-	   video.play()
-	   $dis.addClass('playing')
+/*	   audio.play()
+	   $dis.addClass('playing')*/
 	 	/* oncanplay事件会有延迟，这里直接play()所以没有用oncanplay
 	 	video.oncanplay = function(){
 	   	    video.play()
 	   	    $dis.addClass('playing')
 	   }*/
-	   video.onended = function(){
+	   audio.onended = function(){
 	        $dis.removeClass('playing')
 	   }
 	   $('.m-song-pause').on('click',function(){
-	       video.pause()
+	       audio.pause()
 	       $dis.removeClass('playing')
 	   })
         $('.m-song-plyBtn').on('click',function(){
-	       video.play()
+	       audio.play()
 	       $dis.addClass('playing')
 	   })
 	 
