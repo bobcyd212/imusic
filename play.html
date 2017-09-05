@@ -73,7 +73,7 @@
 	    var $imgCov = $('img#cover')
 	    $imgCov.attr("src",cover) 
 	    audio.src = url
-	    if(Lyric === undefined || Lyric === ''){ $('#my-song-iner').html('纯音乐 没有歌词')}
+	     if(Lyric === undefined || Lyric === ''){ $('#my-song-iner').html('纯音乐 没有歌词')}
 	    var parts = Lyric.split('\n')// 数组 console.log(parts instanceof Array) // true
 	    var $songScroll = $('#my-song-iner')
 	    parts.forEach(function(string,index){ 
@@ -91,7 +91,7 @@
 	})  
 })
 	   var $dis = $('.disc')
-/*	   audio.play()
+	   /*audio.play()
 	   $dis.addClass('playing')*/
 	 	/* oncanplay事件会有延迟，这里直接play()所以没有用oncanplay
 	 	video.oncanplay = function(){
