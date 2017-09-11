@@ -47,6 +47,52 @@ body{
     content: " ";
     background-color: rgba(0,0,0,.5);
 }
+.footer{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 20px;
+    z-index: 10;
+}
+.footer > .footer-wrap{
+    display: flex;
+    padding: 0 35px;
+    max-width: 320px;
+    margin: 0 auto;
+}
+.footer > .footer-wrap > a{
+    display: block;
+    text-align: center;
+    color: #fff;
+    flex: 1 1 auto;
+    font-size: 15px;
+    background-color: #d43b32;
+    border: 1px solid #d43b32;
+    border-radius: 4px;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 6px;
+    margin-left: 12px;
+}
+.footer > .footer-wrap > a:first-child{
+    color: #d43b32;
+    margin-left: 0;
+    background-color: transparent;
+}
+@media screen and (min-width: 360px){
+    .footer > .footer-wrap > a{
+        height: 42px;
+        line-height: 42px;
+        font-size: 18px;
+    }
+}
+@media screen and (min-width: 414px){
+    .footer > .footer-wrap > a{
+        height: 47px;
+        line-height: 47px;
+        font-size: 20px;
+    }
+}
 .song-wrapper > .song-container{
     padding-top: 63px;
     position: relative;
@@ -258,51 +304,5 @@ body{
     }
     .song-description  .my-song-scroll > .my-song-iner > p{
     padding-bottom: 6px;
-}
-
-.footer{
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 20px;
-    z-index: 10;
-}
-.footer > .footer-wrap{
-    display: flex;
-    padding: 0 35px;
-    max-width: 320px;
-    margin: 0 auto;
-}
-.footer > .footer-wrap > a{
-    display: block;
-    text-align: center;
-    color: #fff;
-    flex: 1 1 auto;
-    font-size: 15px;
-    background-color: #d43b32;
-    border: 1px solid #d43b32;
-    border-radius: 4px;
-    height: 36px;
-    line-height: 36px;
-    padding: 0 6px;
-    margin-left: 12px;
-}
-.footer > .footer-wrap > a:first-child{
-    color: #d43b32;
-    margin-left: 0;
-    background-color: transparent;
-}
-@media screen and (min-width: 360px){
-    .footer > .footer-wrap > a{
-        height: 42px;
-        line-height: 42px;
-        font-size: 18px;
-    }
-}
-@media screen and (min-width: 414px){
-    .footer > .footer-wrap > a{
-        height: 47px;
-        line-height: 47px;
-        font-size: 20px;
     }
 }

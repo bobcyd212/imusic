@@ -6,11 +6,10 @@
 	<link rel="stylesheet" href="reset.css">
 	<link rel="stylesheet" href="index.css">
 	<link rel="shortcut icon" href="./music.ico">
-	<script src="./vendor/jquery.min.js"></script>
 	<title>网易云音乐</title>
 </head>
 <body>
-	<div class="page">
+	<div class="page tabs">
 	    <div class="home-top">
 	    	<section class="topbar">
 				<div class="logo">
@@ -23,13 +22,12 @@
 	    </div>		
 		<section class="globalTabs">
 		    <div class="top-tabs">
-		    	<ol class="tabs">
+		    	<ol class="tabs-nav">
 					<li class="active"><span >推荐音乐</span></li>
 					<li><span>热歌榜</span></li>
 					<li><span>搜索</span></li>
 			    </ol>
 		    </div>
-
 			<ol class="tab-content">
 				<li class="page-1 active">
 					<section class="playlist">
@@ -175,160 +173,42 @@
 			</ol>
 		</section>
 	</div>
-	<script src="./vendor/av-min.js"></script>
-	<script src="./AV.js"></script>
+	<script src="./vendor/jquery.min.js"></script>
+<!-- 	<script src="./vendor/av-min.js"></script>
+	<script src="./src/AV.js"></script> -->
+    <script data-main="src/main" src="vendor/require.js"></script>
 	<script>
-		$('.tabs').on('click','li',function(e){
-			var $li = $(e.currentTarget)
-			var index = $li.index()
-			$li.addClass('active').siblings().removeClass('active')
-			$('.tab-content').children().eq(index).addClass('active').siblings().removeClass('active')
-		})
+		requirejs.config({
+	    /*baseUrl: './src',  */   // 默认以main所在的目录为根目录；
+	    paths: {
+	        jquery: '../vendor/jquery.min', // jquery在当前目录下的位置；
+	        av: '../vendor/av-min'
+	    }
+        });
 	</script>
+	 <!-- <script>
+		window.app = {}
+		window.loadScript = function(url,callback){
+			var script = document.createElement('script')
+		    script.src = './src/tab.js'
+		    script.onload = function(){
+			    callback()
+		    } 
+            document.head.appendChild(script)
+		}
+	</script>
+    <script src="./src/tab.js"></script>
 	<script>
-		var $olList = $('#list')
-		var queryLatest = new AV.Query('Song');
-		queryLatest.equalTo('Latest',true);
-		queryLatest.find().then(function(results){
-			$('.song-loading').remove()
-			for(var i=0; i<results.length;i++){
-				var song = results[i].attributes 
-				var li = `
-				            <a href="./play.html?id=${results[i].id}"> 
-				                <div class="songplay-list">
-                                    <div class="song-list">
-									    <h3>${song.words}</h3>
-										<p>
-										    <i></i>${song.singer}
-										</p>
-							        </div>
-							        <div class="playsong_outer">
-							    	    <span class="playsong"></span>
-							        </div>
-				                </div>
-							</a>
-				          `
-				$olList.append(li)
-			}
-		},function(error){console.log('获取歌曲失败')})
-        
-        var $hotList = $('ol#hotlist')
-      
-       var query= new AV.Query('Song');
-		   query.equalTo('hot',false);
-		   query.find().then(function(results){
-		 	$('.song-loading').remove()
-		 	for(var i=0; i<results.length;i++){
-		 		var song = results[i].attributes
-		 		var j = i
-		 		j = j+1
-		 		if(j<10){j = '0'+ j}
-		 		var li = `
-		 	         <a class="m-sgitem" href="./play.html?id=${results[i].id}">
-		 					<span class="serial-num">${j}</span>
-		 						<div class="songplay-list">
-		 						<div class="song-list">
-		 						    <h3>${song.words}</h3>
-		 							    <p>
-		 								    <i></i>${song.singer}
-		 							    </p>
-		 						</div>
-		 						<div class="playsong_outer">
-		 						    <span class="playsong"></span>
-		 						</div>
-		 					</div>
-		 			    </a>        
-	                `
-		 		$hotList.append(li)
-		 		if(j<4){$('.serial-num').css('color','#df3436')}
-		 	}
-		 },function(error){console.log('获取歌曲失败')})
-
-        var recomItem = $('.recom-item')
-		$(recomItem).on('click',function(){
-			var item = $(this).children()
-			var txt = item.text()
-			$('input#search').val(txt)
-			$('input#search').trigger('input')
-            
+	if(!app.tabs){
+		loadScript('./src/tab.js',function(){
+			app.tabs('.tabs')
 		})
-		var timer = null
-		$('input#search').on('input',function(e){
-            var $input = $(e.currentTarget)
-			var value = $input.val().trim()
-			$('.m-hotlist').removeClass('active')
-		    $('#holder').removeClass('active')
-		    $('.m-recom').addClass('active')
-		    $('.m-history').addClass('hidden')
-			if(value === ''){
-				$('.m-hotlist').addClass('active')
-		        $('#holder').addClass('active')
-		        $('.m-recom').removeClass('active')
-		        $('.m-history').removeClass('hidden')
-			}
-			$('h3#bigResult').html('搜索' + ' ' +'"' + value+'"');
-			var $historyList = $('.history-list')
-		    if(value && value !== ' '){
-			    var li = `
-			            <li class="history-item">
-									<i class="u-svg u-svg-history"></i>
-									<div class="history">
-										<span class="link">${value}</span>
-										<figure class="close">
-											<i class="u-svg u-svg-history"></i>
-										</figure>
-									</div>
-					    </li>
-		    
-			             `
-			$('.history-list').prepend(li)
-		    }	
-		    $('#close').on('click',function(){
-            $('input#search').val('')
-            $('.m-hotlist').addClass('active')
-		    $('#holder').addClass('active')
-		    $('.m-recom').removeClass('active') 
-		    $('.m-history').removeClass('hidden')      
-		})
-			if(timer){
-			window.clearTimeout(timer)
-			}
-			timer = setTimeout(function(){
-			timer = null
-			var querySong = new AV.Query('Song');
-			querySong.contains('words',value);
-			var queryName = new AV.Query('Song');
-			queryName.contains('singer',value)
-			var query = AV.Query.or(querySong,queryName)
-			query.find().then(function(results){
-			    $('#searchResult').empty()
-			if(results.length === 0){
-					$('h3#bigResult').html('抱歉，没有结果！')
-
-				}else{
-					for(var i=0;i<results.length;i++){
-				    var song = results[i].attributes
-					var li = `
-					<li class="recom-sear" data-id="${results[i].id}">
-						<i class="u-svg u-svg-search"></i>
-						<a href="./play.html?id=${results[i].id}">
-					        <span class="recom-result">${song.words} - ${song.singer}</span>
-					    </a>
-					</li>
-					`
-
-					var $searchResult= $('#searchResult')
-					$('#searchResult').append(li)
-				    }
-				}
-			
-			})	
-		},300)
-	
-		})
-	
-		
-		
-	</script>
+	}else{
+		app.tabs('.tabs')
+	}
+	</script> 
+    <script src="./src/searchsong.js"></script>
+    <script src="./src/hotsonglist.js"></script>
+    <script src="./src/loadsong.js"></script> -->
 </body>
 </html>
